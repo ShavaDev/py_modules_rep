@@ -1,0 +1,7 @@
+2025-12-22 18:25:48,680 - WarehouseBot - ERROR - Критическая ошибка при движении робота
+Traceback (most recent call last):
+  File "C:\Users\User\PycharmProjects\profipython\logg.py", line 98, in move_box
+    raise ValueError(f"Некорректный ID: {box_id}")
+ValueError: Некорректный ID: -1
+2025-12-22 18:25:48,683 - WarehouseBot - DEBUG - Робот начал перемещение ящика 99
+2025-12-22 18:25:48,683 - WarehouseBot - WARNING - Вход в опасную зону! Ящик: 99

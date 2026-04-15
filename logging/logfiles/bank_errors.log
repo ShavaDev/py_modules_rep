@@ -1,0 +1,5 @@
+2025-12-22 17:34:14,266 - BankSystem - ERROR - Ошибка транзакции user_1 -> user_2
+Traceback (most recent call last):
+  File "C:\Users\User\PycharmProjects\profipython\logg.py", line 52, in transfer_money
+    raise ValueError(f"Недопустимая сумма: {amount}")
+ValueError: Недопустимая сумма: -50

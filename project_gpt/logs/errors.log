@@ -1,0 +1,5 @@
+2026-01-04 02:38:49,310 | ERROR | app | Нельзя делить на ноль!
+Traceback (most recent call last):
+  File "C:\Users\User\PycharmProjects\profipython\project_gpt\operations.py", line 31, in div
+    raise ZeroDivisionError('Деление на ноль не определено!')
+ZeroDivisionError: Деление на ноль не определено!

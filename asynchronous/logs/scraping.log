@@ -1,0 +1,31 @@
+01/07/2026 06:16:52 PM - asyncio - [DEBUG] - Using proactor: IocpProactor
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-1.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-2.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-3.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-4.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-5.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-6.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-7.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-8.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-9.html
+01/07/2026 06:16:52 PM - scraper - [INFO] - Начало загрузки: https://books.toscrape.com/catalogue/page-10.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-9.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-9.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-3.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-3.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-6.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-6.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-5.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-5.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-10.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-10.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-7.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-7.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-2.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-2.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-8.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-8.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-1.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-1.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Спарсено 20 книг с https://books.toscrape.com/catalogue/page-4.html
+01/07/2026 06:16:53 PM - scraper - [INFO] - Завершено: https://books.toscrape.com/catalogue/page-4.html
