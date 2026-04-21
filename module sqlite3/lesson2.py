@@ -197,12 +197,345 @@ ELSE не добавлено, любые результаты в вашем на
 """
 
 import sqlite3
+from logging import exception
 
-try:
-    with sqlite3.connect("Car_Database.db") as connection:
-        cursor = connection.cursor()
-        sql_execute = ...
-        for row in sql_execute:
-            print(row)
-except Exception as e:
-    print(e)
+
+def arithmetic_operators():
+    """
+    Данный запрос буде содержать примеры работы с арифметическими операторами внутри запроса
+    При это стоит обратить внимание, что когда пишу дробное число, то надо писать с точкой!
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                SELECT
+                option_set_price AS [Original Amount],
+                option_set_price + 10 [Addition Operator],
+                option_set_price - 10 [Subtraction Operator],
+                option_set_price / 10 [Division Operator],
+                option_set_price * 10 [Multiplication Operator],
+                option_set_price % 10 [Modulo Operator],
+                option_set_price *1.15 [Increased tax]
+                FROM Car_Options
+                ORDER BY option_set_price ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def where_and_eq_operators():
+    """
+    Запрос заключает в себе работу с условием where и операторами сравнения (в связке)
+    в данном случае запрос может быть выполнен только один раз,
+    в противном случае писать отдельные sql_execute
+    тут я написал просто как для примера, отдельно каждый запрос работает,
+    так как все запросы я проверяю в DB BrowserSQLite3.
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                SELECT
+                option_set_id, 
+                model_id,
+                option_set_price
+                FROM Car_Options
+                WHERE option_set_price > 3600
+                ORDER BY option_set_price ASC;
+                
+                SELECT
+                option_set_id, 
+                model_id,
+                option_set_price
+                FROM Car_Options
+                WHERE option_set_price >= 3600
+                ORDER BY option_set_price ASC;
+                
+                SELECT
+                option_set_id, 
+                model_id,
+                option_set_price
+                FROM Car_Options
+                WHERE option_set_price <> 3600
+                ORDER BY option_set_price ASC;              
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def in_operator():
+    """
+    Данный запрос заключает в себе работу с оператором in в связке с where
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                SELECT
+                option_set_id, 
+                model_id,
+                option_set_price
+                FROM Car_Options
+                WHERE option_set_price
+                IN (4000, 7000)
+                ORDER BY option_set_price ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def filter_string():
+    """
+    Данный запрос будет использовать фильтрацию строк по тому, как мы делали с числами
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                SELECT
+                option_set_id, 
+                model_id,
+                color,
+                option_set_price
+                from Car_Options
+                -- WHERE color = 'Blue'
+                -- ORDER BY option_set_price ASC
+                WHERE color IN ('Blue','Yellow')
+                ORDER BY option_set_price ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def operator_like():
+    """
+    Данный запрос будет осуществлять выборку записей с помощью оператора like,
+    причем будут показаны три вида запроса с оператором LIKE
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                -- select
+                -- option_set_id, 
+                -- model_id,
+                -- color,
+                -- option_set_price
+                -- from Car_options
+                -- where color
+                -- like 'b%' --причем не имеет смысла в каком регистре записана буква для поиска
+                -- order by option_set_price asc;
+                
+                -- select
+                -- option_set_id, 
+                -- model_id,
+                -- color,
+                -- option_set_price
+                -- from Car_options
+                -- where color
+                -- like '%w'
+                -- order by option_set_price asc;
+                
+                -- select
+                -- option_set_id, 
+                -- model_id,
+                -- color,
+                -- option_set_price
+                -- from Car_options
+                -- where color 
+                -- like '%E%'
+                -- order by option_set_price asc;
+                
+                -- Следующий запрос будет  включать в себя исключающий оператор not
+                SELECT
+                option_set_id, 
+                model_id,
+                color,
+                option_set_price
+                FROM Car_options
+                WHERE color
+                NOT LIKE '%e%'
+                ORDER BY option_set_price ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def func_date():
+    """
+    Данный запрос будет делать выборку по дате с использованием функции DATE()
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                SELECT
+                part_id,
+                part_name,
+                manufacture_start_date,
+                manufacture_end_date
+                FROM Car_Parts
+                WHERE DATE(manufacture_start_date) = '2012-08-12'
+                ORDER BY part_id ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def and_or_operators():
+    """
+    Данный запрос будет делать выборку с использованием операторов AND и OR
+    с двумя отдельными полями. Также будет показана выборка с помощью оператора OR
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                -- select
+                -- part_id,
+                -- part_name,
+                -- manufacture_start_date,
+                -- manufacture_end_date
+                -- from Car_Parts
+                -- where date(manufacture_start_date) = '2012-08-12'
+                -- and date(manufacture_end_date) < '2017-10-20'
+                -- order by part_id asc;
+                
+                -- select 
+                -- option_set_id, 
+                -- model_id,
+                -- color,
+                -- option_set_price
+                -- from Car_options
+                -- where color
+                -- not like '%e%'
+                -- and option_set_price < 4000
+                -- order by option_set_price asc, color asc;
+                
+                SELECT 
+                option_set_id, 
+                model_id,
+                color,
+                option_set_price
+                FROM Car_options
+                WHERE color
+                LIKE 'O%'
+                OR color
+                LIKE '%e'
+                ORDER BY option_set_price ASC, color ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def brackets_for_separate_conditions():
+    """
+    Использование круглых скобок с операторами
+    AND и OR для указания порядка операций. Для строгости лучше так и прописывать!
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                SELECT 
+                option_set_id, 
+                model_id,
+                color,
+                option_set_price
+                FROM Car_options
+                WHERE option_set_price < 4000
+                AND (color LIKE 'Y%' OR color LIKE 'P%')
+                ORDER BY option_set_price ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+def case_operator():
+    """
+    Оператор CASE.
+    End оператор нужен для того, чтобы закончить оператор case, прописывать псевдоним необязательно,
+    но рекомендуется, так как сама СУБД без псевдонима в качестве поля выдаст запись поля как целую запись
+    оператора case, поэтому в хорошем тоне, чтобы было понятно, стоит прописывать псевдоним
+    :return:
+    """
+    try:
+        with sqlite3.connect("Car_Database.db") as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                SELECT
+                option_set_id,
+                model_id,
+                color,
+                option_set_price,
+                CASE
+                WHEN option_set_price < 3000 THEN 'cheap price'
+                WHEN option_set_price BETWEEN 3000 AND 7000 THEN 'average price'
+                WHEN option_set_price BETWEEN 7000 AND 10000 THEN 'expensive price'
+                ELSE 'top of price'
+                END AS PriceType
+                FROM Car_Options
+                WHERE PriceType = 'top of price'
+                -- WHERE color = 'Blue' и другие виды сортировки тоже можно использовать
+                ORDER BY PriceType ASC;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except Exception as e:
+        print(e)
+
+
+if __name__ == '__main__':
+    # arithmetic_operators()
+    # where_and_eq_operators()
+    # in_operator()
+    # filter_string()
+    # operator_like()
+    # func_date()
+    # and_or_operators()
+    # brackets_for_separate_conditions()
+    # case_operator()
+    ...
