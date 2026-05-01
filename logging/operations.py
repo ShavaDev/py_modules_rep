@@ -1,5 +1,5 @@
 import logging
-from logging_config import setup_logging
+from logging.logging_config import setup_logging
 
 setup_logging()
 logger1 = logging.getLogger('app')

@@ -1,4 +1,4 @@
-import operations as ops
+from logging import operations as ops
 
 lst = [(11, 4), (1, 6), (6, 0), (9, 5), (0, 3)]
 
