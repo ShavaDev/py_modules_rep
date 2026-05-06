@@ -179,6 +179,45 @@ ROUND(X,Y) - Функция ROUND() округляет число X до ука�
 внимательны при округлении и изменении значений в промежуточных вычислениях.
 Обычно округление выполняется только на последнем шаге.
 Также вы можете добавить комментарии, чтобы указать, что результаты округляются до двух знаков после запятой.
+
+Использование агрегатных функций и условия GROUP BY
+Полезной особенностью агрегатных функций считается их способность вычислять промежуточные значения,
+или агрегаты, для различных групп данных.
+Язык SQL позволяет вызывать агрегирующие функции не для всех записей в выборке, а локально для указанных групп.
+В общем случае данная группировка она позволяет работать с отдельными записями по группам. То есть, мы должны после
+GROUP BY прописать имя поля, ко которому мы будем агрегировать по группам, то есть вызывать агрегирующую функцию для
+тех записей, которые одинаковые, а потом их объединять в одну запись, и так далее со следующими записями.
+
+Использование условий WHERE и HAVING со сгруппированными запросами
+Добавление критериев в сгруппированный запрос работает так же, как и с другими, уже знакомыми нам запросами.
+Использование условия WHERE позволяет нам добавлять новые критерии.
+НАПОМИНАНИЕ
+Неагрегатное поле — это просто поле в условии SELECT, которое вызывается без агрегатной функции.
+Если необходима дополнительная фильтрация на основе агрегатных функций,
+необходимо включить вторичную фильтрацию, известную как условие HAVING.
+Потому что для создания условия на основе агрегатной функции (по крайней мере, в данном случае) мы не можем
+использовать условие WHERE. В данном случае условие WHERE может указывать только, какую информацию извлекать из полей,
+указанных в условии SELECT. Если необходима дополнительная фильтрация на основе агрегатных функций,
+необходимо включить вторичную фильтрацию, известную как условие HAVING. К тому же, алиасы (псевдонимы) полей тоже
+не получится использовать в условии WHERE, потому что условие WHERE не видит еще алиасы.
+Условие HAVING всегда следует после условия GROUP BY.
+ПРИМЕЧАНИЕ
+Условие HAVING позволяет фильтровать результат группировки, сделанной с помощью команды GROUP BY. Условие HAVING
+фильтрует агрегированные данные. Если вы попытаетесь использовать HAVING без условия GROUP BY, то получите сообщение об ошибке.
+
+Условия WHERE и HAVING
+Если кратко, то разница между условиями WHERE и HAVING заключается в том,
+что WHERE предназначено для фильтрации неагрегатных данных, а HAVING — для
+фильтрации результатов, содержащих агрегаты. Если более подробно, то два
+типа фильтрации возникают, когда в запрос включены как условие WHERE, так
+и условие HAVING. Условие WHERE указывает запросу, какую информацию следует
+исключить из таблицы, а затем, после фильтрации данных и применения к полям
+агрегатных функций, условие HAVING действует как дополнительный фильтр для агрегатных данных.
+
+Группировка по нескольким столбцам
+В условиях GROUP BY можно одновременно указывать столько столбцов, сколько вам требуется.
+Группировка по нескольким столбцам может быть очень полезна, когда необходимо получить более детальную информацию.
+
 """
 
 import sqlite3
@@ -200,7 +239,7 @@ def count_func():
                 like 'B%';
                 """
             ).fetchall()
-            print(sql_execute)
+            print(sql_execute[0][0])
     except sqlite3.OperationalError as e:
         print(e)
 
@@ -382,11 +421,124 @@ def agregation_func_and_inner_func():
     except sqlite3.OperationalError as e:
         print(e)
 
-if __name__ == "__main__":
-    pass
-    count_func()
-    concatenation()
-    substr_func()
-    lower_upper()
-    date_func()
+
+def group_by_func():
+    """
+    Данный	запрос будет показывать работу агрегатных функций с сочетанием group by
+    Важно проводить группировку для того поля, по которому идет работа агрегатной функции
+    :return:
+    """
+    try:
+        with sqlite3.connect('Car_Database.db') as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                -- Данный запрос написан неправильно (технически он работает, но он не корректен)
+                -- select
+                -- option_set_id,
+                -- color,
+                -- avg(option_set_price)
+                -- from Car_options
+                -- order by option_set_id asc;
+                
+                select
+                color,
+                round(avg(option_set_price), 2) as [average price for each color]
+                from Car_Options
+                where color 
+                like '_e%'
+                -- _ значит пропуск буквы, в данном случае пропускаю первую букву
+                -- where substr(color, length(color)) in ('a', 'e', 'y') можно и так
+                group by color
+                order by color asc;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except sqlite3.OperationalError as e:
+        print(e)
+
+
+def having():
+    """
+    Данный запрос показывает работу having и where вместе
+    :return:
+    """
+    try:
+        with sqlite3.connect('Car_Database.db') as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                select
+                color,
+                round(avg(option_set_price), 2) as [average price for each color],
+                count(*)
+                from Car_Options
+                where substr(color, 1, 1) in ('B', 'R', 'Y', 'P')
+                group by color
+                having round(avg(option_set_price), 2) > 5000
+                order by color asc;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except sqlite3.OperationalError as e:
+        print(e)
+
+
+def more_group_by_func():
+    """
+    Данный запрос показывает работу группировки более чем 1 поле
+    :return:
+    """
+    try:
+        with sqlite3.connect('Car_Database.db') as connection:
+            cursor = connection.cursor()
+            sql_execute = cursor.execute(
+                """
+                select
+                model_id,
+                color,
+                round(avg(option_set_price), 2) as [average price for each model],
+                group_concat(option_set_price) as [all_prices],
+                count(*) as [how many?]
+                from Car_Options
+                group by model_id, color
+                order by model_id asc;
+                
+                -- данный запрос показывает, во первых функцию group_concat,
+                -- во вторых что группировка будет только по айди модели и цвет выберется не предсказуемо,
+                -- но должен выбраться один, и как раз функция group_concat показывает из каких цветов будет выбор
+                -- select
+                -- model_id,
+                -- color,
+                -- round(avg(option_set_price), 2) as [average price for each model],
+                -- group_concat(distinct color) as [all_colors],
+                -- count(*) as [how many?]
+                -- from Car_Options
+                -- group by model_id
+                -- order by model_id asc;
+                """
+            ).fetchall()
+            for row in sql_execute:
+                print(row)
+    except sqlite3.OperationalError as e:
+        print(e)
+
+funcs = [
+    count_func,
+    concatenation,
+    substr_func,
+    lower_upper,
+    date_func,
+    group_by_func,
+    having,
+    more_group_by_func
+]
+
+if __name__ == '__main__':
+    for func in funcs:
+        print(f"The function {func.__name__}")
+        func()
+        print()
 
