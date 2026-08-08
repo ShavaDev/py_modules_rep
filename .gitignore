@@ -2,3 +2,26 @@
 .venv/
 .idea/
 
+# Вспомогательные файлы компиляции LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+out/
+latex/auxil/
+
+# Некоторые файлы от manim
+media/
+__pycache__/
+*.mp4
+*.mov
+*.png
+*.gif

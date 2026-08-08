@@ -1,0 +1,59 @@
+\documentclass[a4paper, 12pt]{article}
+
+% золотой набор преамблы
+\usepackage[english, russian]{babel} % Подключает языковые модули. Настраивает правила переноса слов и автоматически переводит системные слова (например, вместо "Contents" пишет "Оглавление", вместо "Theorem" — "Теорема"). Последний язык в списке (russian) становится основным.
+
+\usepackage[T2A]{fontenc} % Задает внутреннюю кодировку шрифтов LaTeX. T2A — это стандартная кодировка для поддержки кириллицы. Благодаря ей в итоговом PDF-файле русский текст будет нормально копироваться и искаться.
+
+\usepackage[utf8]{inputenc} % Говорит компилятору, что твой исходный код .tex написан в кодировке UTF-8. Как я говорил ранее, в современном Overleaf этот пакет уже встроен по умолчанию, его можно опускать.
+
+\usepackage{amsmath, amsfonts, amssymb, amsthm, mathtools} % интерфейс работы с теоремами обеспечивается пакетом amsthm
+\usepackage{graphicx} % это главный пакет в LaTeX для вставки и редактирования изображений.
+\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+\usepackage{hyperref} % работа с ссылками, делает кликабельным
+\hypersetup{
+    colorlinks=true,    % Включает цветной текст ссылок вместо уродливых рамок
+    linkcolor=blue,     % Цвет внутренних ссылок (оглавление, формулы)
+    urlcolor=cyan,      % Цвет внешних веб-ссылок
+    citecolor=green,    % Цвет ссылок на литературу
+    pdftitle={Конспект по матанализу}, % Метаданные для PDF-файла
+    pdfauthor={Студент 1-го курса}
+}
+
+\usepackage{indentfirst} % пакет для абзаца каждой секции
+\usepackage{titleps} % пакент для колонтитулов
+\usepackage{soulutf8} % пакет для разного вида шрифта
+\usepackage{xcolor} % для работы с цветами
+
+% для работы с таблицами
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+% стиль страницы
+\newpagestyle{main}{ % main - название стиля, и в других фигурных скобках это содержимое
+    \setheadrule{0.4pt} % толщина линии отделяющий хедер или футер от текста
+    \sethead{ФПМИ Конспект}{}{Глава \thesection} % верхний колонтитул (header) обязательные три параметра!
+    % \thesection — выведет номер раздела (например, 1.2)
+    % \sectiontitle — автоматически выведет имя текущего раздела
+    \setfootrule{0.4pt}  % толщина линии отделяющий хедер или футер от текста
+    \setfoot{Конспект лекций}{\thepage}{2026} % нижний колонтитул (footer)
+}
+\pagestyle{main} % команда для приминения стиля страницы, можно использовать в каком-то определенном промежутке кода
+
+% стиль plain
+\theoremstyle{plain} % модификатор, который задает стиль всем следуюшим теоремам, пока не переопределить.
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{axeom}{Аксиома}
+\newtheorem{corollary}{Следствие}[theorem] % последний необязательный аргумент, говорит о нумерации следствия данной теоремы.
+
+% стиль defenition
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[theorem] % привязанность к данной теореме
+\newtheorem{property}{Свойство}[theorem]
+\newtheorem{exercise}{Задача}[section]
+
+% стиль remark
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Замечание}
