@@ -17,6 +17,7 @@
 *.vrb
 out/
 latex/auxil/
+latex/images/
 
 # Некоторые файлы от manim
 media/
